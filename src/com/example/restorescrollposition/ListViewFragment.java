@@ -51,7 +51,7 @@ public class ListViewFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		ActionBarActivity activity = (ActionBarActivity) getActivity();
 		ListViewFragmentAdapter adapter = new ListViewFragmentAdapter(activity,
-				android.R.layout.simple_list_item_1, android.R.layout.simple_list_item_1,
+				android.R.layout.simple_list_item_1, android.R.id.text1,
 				Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 						13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
 						29, 30, 31,}));
@@ -61,12 +61,14 @@ public class ListViewFragment extends Fragment {
 	public static class ListViewFragmentAdapter extends ArrayAdapter<Integer> {
 		List<Integer> objects;
 		Context context;
+		int resource;
 		int textViewResourceId;
 
 		public ListViewFragmentAdapter(Context context, int resource,
 				int textViewResourceId, List<Integer> objects) {
 			super(context, resource, textViewResourceId, objects);
 			this.context = context;
+			this.resource = resource;
 			this.textViewResourceId = textViewResourceId;
 			this.objects = objects;
 		}
@@ -77,13 +79,15 @@ public class ListViewFragment extends Fragment {
 				LayoutInflater layoutInflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				if (position == 0) {
-					convertView = layoutInflater.inflate(R.layout.zero_height_view, null);
+					convertView = layoutInflater.inflate(R.layout.zero_height_view,
+							parent, false);
 				} else {
-					convertView = layoutInflater.inflate(textViewResourceId, null);
+					convertView = layoutInflater.inflate(resource, parent, false);
 				}
 			}
 			if (position != 0) {
-				((TextView) convertView).setText("" + objects.get(position));
+				((TextView) convertView.findViewById(textViewResourceId)).setText(""
+						+ objects.get(position));
 			}
 			return convertView;
 		}

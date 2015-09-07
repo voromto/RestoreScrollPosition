@@ -31,16 +31,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		final String item = mExpandListGroups.get(groupPosition).getData() + " "
-				+ mExpandListGroups.get(groupPosition).getItems().get(childPosition);
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.row, null);
+			convertView = mInflater.inflate(R.layout.child, parent, false);
 		}
-		((TextView) convertView).setText(item);
+		final String group = mExpandListGroups.get(groupPosition).getData();
+		final String child = mExpandListGroups.get(groupPosition).getItems()
+				.get(childPosition);
+		((TextView) convertView.findViewById(R.id.text1)).setText(group);
+		((TextView) convertView.findViewById(R.id.text2)).setText(child);
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Toast.makeText(mActivity, item, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mActivity, group + " " + child, Toast.LENGTH_SHORT).show();
 			}
 		});
 		return convertView;
@@ -51,14 +53,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			ViewGroup parent) {
 		if (convertView == null) {
 			if (groupPosition == 0) {
-				convertView = mInflater.inflate(R.layout.zero_height_view, null);
+				convertView = mInflater.inflate(R.layout.zero_height_view, parent, false);
 			} else {
-				convertView = mInflater.inflate(R.layout.group, null);
+				convertView = mInflater.inflate(R.layout.group, parent, false);
 			}
 		}
 		if (groupPosition != 0) {
-			((TextView) convertView).setText(mExpandListGroups.get(groupPosition)
-					.getData());
+			((TextView) convertView.findViewById(R.id.text1)).setText(mExpandListGroups
+					.get(groupPosition).getData());
 		}
 		return convertView;
 	}
